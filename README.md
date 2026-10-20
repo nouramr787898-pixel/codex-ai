@@ -51,3 +51,10 @@ Use a **Node.js host with persistent storage** such as Railway with a mounted pe
 - The privacy page is a draft, **not legal advice**; adapt to actual retention rules, company contact details and applicable laws before launch.
 - Backups: back up `/data` regularly, including SQLite WAL/shm files consistently (prefer SQLite online backup procedures).
 - If user-generated HTML/rich text is later added, enforce strict sanitization.
+
+
+### Visual update (20 October 2026)
+- Replaced static hero cube with self-contained animated laptop dashboard. All numbers on dashboard are illustrative, not live analytics.
+- Technology logo strip uses local SVG files in `logo-*.svg`; upload these files alongside the root files to GitHub Pages (it is required).
+- Dashboard sidebar automatically cycles and is clickable; respects reduced-motion setting.
+- GitHub Pages cannot run the Node.js backend; contact form/admin features require server deployment.
