@@ -58,3 +58,15 @@ Use a **Node.js host with persistent storage** such as Railway with a mounted pe
 - Technology logo strip uses local SVG files in `logo-*.svg`; upload these files alongside the root files to GitHub Pages (it is required).
 - Dashboard sidebar automatically cycles and is clickable; respects reduced-motion setting.
 - GitHub Pages cannot run the Node.js backend; contact form/admin features require server deployment.
+
+
+## Glow effect (v5)
+Blue cursor-following spotlight and luminous rim added site-wide to interactive cards, project tiles, stats, buttons, WhatsApp, and form panels. No external assets. Respects reduced-motion and touch preferences.
+
+## October 20 consolidated website update
+- Hero statistics: 230 websites, 50 apps, 5 years (animated on each visibility entry). Confirm figures before publication.
+- Animated shine + hover effects, four-card statistics, orbital Why Codexa, four FAQs, call/WhatsApp buttons with phone vibration.
+- Top 3 services are previewed, and an expandable catalog contains 11 total services. The footer links to all 11 services.
+- Project cards open a local details dialog; no outbound competitor portfolio URLs remain in the project metadata. The gallery currently displays 47 named samples and does **not** establish Codexa authorship, ownership, or customer approval. Replace or obtain permissions before making public claims.
+- Added site-data.js for static GitHub Pages rendering when API is unavailable. **Important:** GitHub Pages is static only: inquiry submission, admin and persistent content editing will not work there.
+- The service-area strip uses bundled local technology logo SVGs, not purported customer logos.
