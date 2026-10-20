@@ -70,3 +70,15 @@ Blue cursor-following spotlight and luminous rim added site-wide to interactive 
 - Project cards open a local details dialog; no outbound competitor portfolio URLs remain in the project metadata. The gallery currently displays 47 named samples and does **not** establish Codexa authorship, ownership, or customer approval. Replace or obtain permissions before making public claims.
 - Added site-data.js for static GitHub Pages rendering when API is unavailable. **Important:** GitHub Pages is static only: inquiry submission, admin and persistent content editing will not work there.
 - The service-area strip uses bundled local technology logo SVGs, not purported customer logos.
+
+## Portfolio and 20 Oct 2026 follow-up edits
+- `portfolio-data.js` contains **41 user-supplied URLs**, classified into seven industries. The gallery provides live outbound links to those URLs, an on-site details dialog, and name/category search. `BeTraining` is first within training category; Google search rankings cannot be guaranteed.
+- **Screenshots and logos are not included**: the referenced websites could not be automatically fetched from this build environment, and the shared Google Drive folder did not expose downloadable assets. Cards use obvious stylized placeholders, not mock screenshots.
+- The scrolling SVG technology-logo strip is still present until the promised 44 original client logos can be provided in a downloadable ZIP or through a connected Drive account. Do not claim these tech logos are the 44 requested originals.
+- Users should verify company attribution/display permission before claiming all 41 as work done by Codexa AI.
+- New features: four-benefit ribbon with left-to-right animated beam, whole-page cursor spotlight, tabbed About section, and animated WhatsApp contact card.
+- GitHub Pages hosts only static files. Backend contact form and administration still need Node.js hosting, as before.
+
+
+## شريط الشعارات
+تم تضمين 39 شعارًا من الملفات المرفوعة باسم client-logo-01.webp حتى client-logo-39.webp في جذر المشروع. يحافظ المعرض على صور الشعارات الأصلية داخل بطاقات بيضاء لتظهر الشعارات الداكنة بوضوح، ويستبدل شريط شعارات التقنيات السابق.
