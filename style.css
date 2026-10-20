@@ -92,3 +92,39 @@ a.shine-target,button.shine-target{overflow:hidden}
 .brand-strip-inner{animation-duration:145s;gap:18px}
 .brand-strip-inner img{width:150px;height:92px;object-fit:contain;background:white;border-radius:12px;padding:8px;box-sizing:border-box;filter:drop-shadow(0 0 8px #0ecefc30)}
 @media(max-width:580px){.tech-item{width:124px;min-width:124px;height:82px;padding:6px}.tech-item img{height:68px}.brand-strip-inner img{width:120px;height:78px}}
+
+/* Codexa refinements: consistent full-length light sweeps */
+.ribbon-beam{top:0;left:-25%;width:25%;z-index:5}
+.value-grid{position:relative;z-index:1}
+.services-section .section-heading,.portfolio-section .section-heading{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px}
+.services-section .section-heading>div,.portfolio-section .section-heading>div{width:100%;text-align:center}
+.services-section .section-heading p,.portfolio-section .section-heading p{margin:8px auto 0;max-width:750px;line-height:2;text-align:center}
+.glow-word{display:inline-block!important;font-style:normal!important;padding:10px 25px;margin-top:15px;border:1px solid rgba(14,206,252,.65);border-radius:16px;background:rgba(2,105,239,.15);color:#0ecefc!important;box-shadow:0 0 25px #0269ef30;position:relative;overflow:hidden;isolation:isolate}
+.glow-word::before{content:'';position:absolute;inset:-40%;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.32) 49%,transparent 60%);transform:translateX(-160%);animation:wordSweep 5s linear infinite;pointer-events:none}
+@keyframes wordSweep{to{transform:translateX(160%)}}
+.statshow-card .mini-chart{display:none!important}
+.statshow-card .stat-icon{width:54px;height:54px;display:grid;place-items:center;border-radius:14px;background:#0269ef2e;color:#0ecefc;box-shadow:0 0 17px #0269ef40;margin-bottom:20px}
+.stat-icon svg,.service-icon svg{width:28px;height:28px;display:block}
+.service-icon svg{width:27px;height:27px}
+.about-tabs-section{scroll-margin-top:80px}
+.about-tabs-card{min-height:330px}
+.about-tab-panel p{font-size:16px;line-height:2.2;max-width:720px}
+.about-tab-panel h3{font-size:clamp(24px,3vw,34px)}
+.about-tabs-orb{font-size:65px!important;animation:orbFloat 5s ease-in-out infinite}
+.about-arrow{display:grid;place-items:center;margin:20px auto 0;width:47px;height:47px;border:1px solid #0ecefc77;border-radius:50%;color:#0ecefc;font-size:28px;animation:aboutRotate 7s linear infinite}
+@keyframes aboutRotate{to{transform:rotate(360deg)}}
+@keyframes orbFloat{50%{transform:translateY(-12px) rotate(10deg)}}
+.journey-progress{display:none!important}
+.journey-wrap:after{content:'▼';position:absolute;top:40px;left:var(--journey-marker-x,12.5%);transform:translateX(-50%);color:#0ecefc;font-size:18px;filter:drop-shadow(0 0 8px #0ecefc);z-index:4;transition:left .4s ease;pointer-events:none}
+.journey-detail-icon{min-width:96px;justify-content:center}
+.contact-copy{align-self:center;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px}
+.contact-copy h2{line-height:1.55;margin:8px 0}
+.contact-copy p{line-height:2;max-width:440px;margin:5px 0}
+.contact-copy .whatsapp-big{margin:12px auto 0}
+/* complete uninterrupted sweep across each box, with no mid-card cutoff */
+.shine-target:not(.btn):not(.whatsapp-link):not(.contact-method):not(.primary)::before{background:linear-gradient(105deg,transparent 32%,rgba(134,220,255,.02) 39%,rgba(195,238,255,.30) 49%,rgba(134,220,255,.06) 60%,transparent 68%)!important;background-size:100% 100%!important;inset:-50% -150%!important;border-radius:0!important;opacity:1!important;transform:translateX(-60%);animation:codexaFullSweep 6s linear infinite;mask-image:none!important;-webkit-mask-image:none!important}
+@keyframes codexaFullSweep{to{transform:translateX(60%)}}
+.shine-target{overflow:hidden}
+.shine-target::after{opacity:.3}
+@media(max-width:770px){.journey-wrap:after{top:24px}.about-tabs-orb{font-size:45px!important}.contact-copy{padding:16px 8px}}
+@media(prefers-reduced-motion:reduce){.glow-word::before,.shine-target::before,.about-arrow,.about-tabs-orb{animation:none!important}}
