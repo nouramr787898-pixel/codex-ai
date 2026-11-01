@@ -82,3 +82,7 @@ Blue cursor-following spotlight and luminous rim added site-wide to interactive 
 
 ## شريط الشعارات
 تم تضمين 39 شعارًا من الملفات المرفوعة باسم client-logo-01.webp حتى client-logo-39.webp في جذر المشروع. يحافظ المعرض على صور الشعارات الأصلية داخل بطاقات بيضاء لتظهر الشعارات الداكنة بوضوح، ويستبدل شريط شعارات التقنيات السابق.
+
+## Portfolio website previews
+
+Portfolio cards use website screenshots from `image.thum.io`, loaded lazily in batches of six. Each entry in `portfolio-data.js` can optionally provide an `image` path to use an approved local screenshot instead. If a preview cannot load, the card shows an explicit unavailable message and retains its website link. The preview service and destination websites must be reachable to verify live screenshots; a generated placeholder is never presented as a website screenshot.
