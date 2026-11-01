@@ -85,12 +85,6 @@ Blue cursor-following spotlight and luminous rim added site-wide to interactive 
 
 ## Portfolio website previews
 
-Only manually reviewed screenshots stored in this repository are displayed. External screenshot services are not used: they can return white loading screens, bot challenges or access-denied pages as successful images.
+Each portfolio card displays a screenshot preview above its name and website link. Reviewed repository screenshots take priority when an entry has `image: "assets/portfolio/<project-name>.webp"` and `imageVerified: true` (PNG and JPG are also supported). Otherwise, the card requests its website preview from `image.thum.io`. Images load lazily, in batches of six projects.
 
-To add a screenshot:
-
-1. Open the project's exact URL in `portfolio-data.js` and capture its actual homepage after it has fully loaded. Do not save loading screens, cookie overlays, bot challenges or access-denied pages.
-2. Review the screenshot visually and save it as `assets/portfolio/<project-name>.webp` (PNG and JPG are also supported).
-3. Set the entry's `image` to that relative path and `imageVerified` to `true` only after review.
-
-Cards without a reviewed screenshot retain their website link and show an explicit note, without an empty image box. A failed local image is removed rather than shown as a broken preview. No screenshots are currently marked as verified.
+External previews can return loading screens, bot challenges or access-denied pages as successful image responses; they are not marked as reviewed. Replace such captures with manually reviewed local screenshots of the fully loaded project homepage. Failed image requests show an unavailable message while preserving the website link. No project currently has a reviewed local screenshot.

@@ -24,19 +24,19 @@ $('#portfolioSearch').placeholder=lang==='ar'?'ابحث باسم الموقع أ
 $('#portfolioCredit').textContent=lang==='ar'?'يمكنك فتح كل موقع للاطلاع على واجهته. عرض النماذج لا يُعد شهادة بأن جميعها من تنفيذ Codexa AI.':'Open each website to explore its interface. Inclusion does not establish Codexa AI authorship.';
 for(const x of listed){const card=node('article','project-card partner-card');
 const info=node('div','project-info');info.append(node('small','',x.group),node('h3','',x.name));
-const previewStatus=node('p','preview-status',lang==='ar'?'لم تُضف صورة موثّقة لواجهة هذا الموقع بعد.':'A verified screenshot of this website has not been added yet.');
-// Only manually reviewed, repository-hosted screenshots may be displayed.
+const previewStatus=node('p','preview-status',lang==='ar'?'تعذّر تحميل معاينة الموقع حاليًا؛ يمكنك فتحه من زر الزيارة.':'The website preview could not load; use the website link to view it.');
+// Prefer a reviewed local capture; otherwise retain the requested external preview.
 const verifiedImage=x.imageVerified===true&&typeof x.image==='string'&&/^assets\/portfolio\/[a-zA-Z0-9_-]+\.(webp|png|jpe?g)$/.test(x.image);
-if(verifiedImage){
+{
  const visual=node('div','project-visual project-preview');
  const domain=new URL(x.url).hostname.replace(/^www\./,'');
  const image=node('img','project-screenshot');
  image.alt=(lang==='ar'?'واجهة موقع ':'Website preview: ')+x.name;
  image.loading='lazy';image.decoding='async';image.width=1200;image.height=750;
- image.src=x.image;
+ image.src=verifiedImage?x.image:'https://image.thum.io/get/width/1200/crop/750/noanimate/'+x.url;
  image.addEventListener('error',()=>{visual.remove();info.append(previewStatus)});
  visual.append(node('small','project-browser-bar','● ● ●     '+domain),image);card.append(visual);
-}else info.append(previewStatus);
+}
 const controls=node('div','project-actions');
 const link=node('a','project-site-link',lang==='ar'?'زيارة الموقع ↗':'Visit website ↗');link.href=x.url;link.target='_blank';link.rel='noopener noreferrer';controls.append(link);info.append(controls);card.append(info);projects.append(card)}
 if(!listed.length)projects.append(node('div','empty-portfolio',lang==='ar'?'لا توجد نتائج مطابقة.':'No matching projects.')); setupCardShine(); }
