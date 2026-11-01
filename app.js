@@ -29,7 +29,7 @@ const link=node('a','project-site-link',lang==='ar'?'زيارة الموقع ↗
 if(!listed.length)projects.append(node('div','empty-portfolio',lang==='ar'?'لا توجد نتائج مطابقة.':'No matching projects.')); }
 $('#portfolioSearch').addEventListener('input',render);
 $('#langBtn').addEventListener('click',()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('codexa-lang',lang);render()});$('#themeBtn').addEventListener('click',()=>{const next=document.body.dataset.theme==='dark'?'light':'dark';document.body.dataset.theme=next;$('#themeBtn').textContent=next==='dark'?'☀':'☾';localStorage.setItem('codexa-theme',next)});const savedTheme=localStorage.getItem('codexa-theme');if(['dark','light'].includes(savedTheme)){document.body.dataset.theme=savedTheme;$('#themeBtn').textContent=savedTheme==='dark'?'☀':'☾'}
-$('#menuBtn').addEventListener('click',()=>{$('#navigation').classList.toggle('open')});document.querySelectorAll('#navigation a').forEach(a=>a.addEventListener('click',()=>$('#navigation').classList.remove('open')));$('#year').textContent=new Date().getFullYear();
+$('#menuBtn').addEventListener('click',()=>{const open=$('#navigation').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',String(open))});document.querySelectorAll('#navigation a').forEach(a=>a.addEventListener('click',()=>{$('#navigation').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false')}));$('#year').textContent=new Date().getFullYear();
 $('#requestForm').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget;if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));const status=$('#formStatus'),btn=$('#submitBtn');btn.disabled=true;btn.textContent=dict[lang].sending;status.textContent='';status.className='';try{const response=await fetch('/api/inquiries',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const json=await response.json();if(!response.ok)throw new Error(json.error||dict[lang].sendError);status.className='success';status.textContent=dict[lang].sent;form.reset()}catch(err){status.className='error';status.textContent=err.message||dict[lang].sendError}finally{btn.disabled=false;btn.textContent=dict[lang].submit}});
 (async()=>{try{const r=await fetch('/api/content');if(!r.ok)throw Error();content=await r.json();render()}catch{content={ar:{headline:'نحوّل أفكارك إلى حقيقة.',description:'في Codexa AI، نبتكر مواقع إلكترونية وأنظمة برمجية وحلولًا ذكية تساعدك على تطوير أعمالك والانطلاق بثقة في العالم الرقمي.',about:''},en:{headline:'Building digital reality.',description:'Websites and intelligent solutions.',about:''},services:window.codexaStaticServices||[],offer:{active:true},projects:[]};render()}})();
 
@@ -52,8 +52,8 @@ if(logoTrack){
 // Dashboard preview is an illustration, not a live analytics feed.
 const dashTitles=['نظرة عامة على الأعمال','تحليلات المشروعات','إدارة المشروعات','تجربة التطوير'];
 const dashChoices=[...document.querySelectorAll('.sidebar-choice')];const dashTitle=document.querySelector('#dashTitle');let dashboardStep=0;
-function switchDashboard(step){dashboardStep=step%dashChoices.length;dashChoices.forEach((e,i)=>e.classList.toggle('active',i===dashboardStep));if(dashTitle)dashTitle.textContent=dashTitles[dashboardStep];document.querySelectorAll('.chart-bars i').forEach((bar,i)=>{bar.style.height=(36+(i*19+dashboardStep*13)%63)+'%'})}
-dashChoices.forEach((choice,i)=>choice.addEventListener('click',()=>switchDashboard(i)));
+function switchDashboard(step){dashboardStep=step%dashChoices.length;dashChoices.forEach((e,i)=>{e.classList.toggle('active',i===dashboardStep);e.setAttribute('aria-pressed',String(i===dashboardStep))});if(dashTitle)dashTitle.textContent=dashTitles[dashboardStep];document.querySelectorAll('.chart-bars i').forEach((bar,i)=>{bar.style.height=(36+(i*19+dashboardStep*13)%63)+'%'})}
+dashChoices.forEach((choice,i)=>{choice.setAttribute('aria-pressed',String(i===0));choice.addEventListener('click',()=>switchDashboard(i))});
 if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)window.setInterval(()=>switchDashboard(dashboardStep+1),4500);
 // Animate only when counters enter the viewport; reduced motion remains accessible.
 const counters=[...document.querySelectorAll('.count-up')];
@@ -71,7 +71,7 @@ const journeyBox=document.querySelector('.journey-wrap');if(window.matchMedia('(
 
 // Subtle cursor spotlight across cards and buttons; no tracking or external dependency.
 (() => {
- const selectors=['.service-card','.partner-card','.project-card','.achievement','.results-card','.results-card-grid > div','.journey-wrap','.journey-detail','.journey-step','.offer-card','.contact-form','.about-frame','.hero-art','.hero-metrics > div','.btn','.whatsapp-link','.contact-method','.client-trust','.faq-item','.faq details','.studio-panel','.feature-card','.portfolio-card','.why-card','.step-card','.service-item'];
+ const selectors=['.service-card','.partner-card','.project-card','.achievement','.results-card','.results-card-grid > div','.journey-detail','.journey-step','.offer-card','.contact-form','.about-frame','.hero-metrics > div','.btn','.whatsapp-link','.contact-method','.client-trust','.faq-item','.faq details','.studio-panel','.feature-card','.portfolio-card','.why-card','.step-card','.service-item'];
  const targets=[...new Set(selectors.flatMap(s=>[...document.querySelectorAll(s)]))];
  targets.forEach(el=>el.classList.add('shine-target'));
  if(!window.matchMedia('(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches)return;

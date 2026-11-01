@@ -121,10 +121,58 @@ a.shine-target,button.shine-target{overflow:hidden}
 .contact-copy h2{line-height:1.55;margin:8px 0}
 .contact-copy p{line-height:2;max-width:440px;margin:5px 0}
 .contact-copy .whatsapp-big{margin:12px auto 0}
-/* complete uninterrupted sweep across each box, with no mid-card cutoff */
-.shine-target:not(.btn):not(.whatsapp-link):not(.contact-method):not(.primary)::before{background:linear-gradient(105deg,transparent 32%,rgba(134,220,255,.02) 39%,rgba(195,238,255,.30) 49%,rgba(134,220,255,.06) 60%,transparent 68%)!important;background-size:100% 100%!important;inset:-50% -150%!important;border-radius:0!important;opacity:1!important;transform:translateX(-60%);animation:codexaFullSweep 6s linear infinite;mask-image:none!important;-webkit-mask-image:none!important}
-@keyframes codexaFullSweep{to{transform:translateX(60%)}}
-.shine-target{overflow:hidden}
+/* Keep light sweeps inside their own layer without clipping card contents. */
+.shine-target:not(.btn):not(.whatsapp-link):not(.contact-method):not(.primary)::before{
+ background:linear-gradient(105deg,transparent 30%,rgba(195,238,255,.16) 50%,transparent 70%);
+ background-size:240% 100%;inset:0;border-radius:inherit;opacity:.7;
+ transform:none;animation:codexaFullSweep 7s ease-in-out infinite;
+}
+@keyframes codexaFullSweep{0%,15%{background-position:160% 0}70%,100%{background-position:-60% 0}}
 .shine-target::after{opacity:.3}
 @media(max-width:770px){.journey-wrap:after{top:24px}.about-tabs-orb{font-size:45px!important}.contact-copy{padding:16px 8px}}
 @media(prefers-reduced-motion:reduce){.glow-word::before,.shine-target::before,.about-arrow,.about-tabs-orb{animation:none!important}}
+
+/* Responsive hero: size the screen to its content, including the chart footer. */
+.hero > *, .about-grid > *, .contact-grid > *, .footer-top > *{min-width:0}
+.ambient{right:0;max-width:100%}
+.studio-art{overflow:visible}
+.laptop-scene{width:86%;max-width:535px}
+.laptop-display{aspect-ratio:auto}
+.screen-panel,.screen-layout{height:auto}
+.screen-main{overflow:visible;line-height:1.45}
+.screen-sidebar{line-height:1.45}
+.dash-heading{gap:8px}
+.dash-online{flex-shrink:0}
+.dash-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.dash-ring{max-width:100%;aspect-ratio:1;height:auto}
+.dash-foot{flex-wrap:wrap;padding-bottom:3px}
+.studio-float-a{left:0}
+.studio-float-b{right:0}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+@media(max-width:560px){
+ .laptop-scene{width:86%}
+ .studio-float-a{left:0}
+ .studio-float-b{right:0}
+ .section-heading{gap:20px}
+ .frame-code{font-size:clamp(12px,3.5vw,20px);padding-inline:0}
+ .contact-form{padding:22px 16px}
+ .whatsapp-big{width:100%;min-width:0;font-size:16px}
+ .journey-detail{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){
+ .shine-target::before,.shine-target::after,.glow-word::before{animation:none!important;background:none;opacity:0}
+}
+.studio-halo{inset:4% 0}
+.laptop-base{margin-inline:-8%}
+
+/* Initial chart heights also work with the server's strict style policy. */
+.chart-bars i:nth-child(1){--h:40%}
+.chart-bars i:nth-child(2){--h:68%}
+.chart-bars i:nth-child(3){--h:53%}
+.chart-bars i:nth-child(4){--h:77%}
+.chart-bars i:nth-child(5){--h:66%}
+.chart-bars i:nth-child(6){--h:95%}
+.chart-bars i:nth-child(7){--h:81%}
+.chart-bars i:nth-child(8){--h:100%}
+
+.sidebar-choice{border:0;background:transparent;text-align:start;font-family:inherit;line-height:inherit}
