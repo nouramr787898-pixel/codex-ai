@@ -48,7 +48,7 @@ app.use(session({store:new SQLiteStore({db:'sessions.sqlite',dir}),secret,resave
 const publicFiles=new Set([
  '/index.html','/privacy.html','/admin.html','/style.css','/admin.css','/project-flow.css',
  '/app.js','/admin.js','/site-data.js','/portfolio-data.js','/project-flow.js','/counters.js','/navigation.js',
- '/codexa-icon.png','/codexa-logo.png'
+ '/codexa-icon.png','/codexa-logo.png','/translations.js','/privacy-page.js'
 ]);
 const publicAsset=/^\/(?:client-logo-\d{2}\.webp|logo-[a-z0-9-]+\.svg|assets\/portfolio\/[a-zA-Z0-9_-]+\.(?:webp|png|jpe?g))$/;
 const servePublic=express.static(root,{index:false,maxAge:'1h',dotfiles:'deny',extensions:false,setHeaders(res,file){if(/\.(?:js|html|css)$/i.test(file))res.setHeader('Cache-Control','no-cache')}});

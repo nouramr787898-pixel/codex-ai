@@ -94,3 +94,9 @@ External previews can return loading screens, bot challenges or access-denied pa
 Run `npm run check` for JavaScript syntax checks and `npm test` for HTTP tests against a temporary Node/SQLite instance. The tests verify that existing server, dependency and database-path files cannot be downloaded, while public pages, scripts and content APIs remain available. Test data is isolated and cleaned up.
 
 `server.js` exposes only the assets listed in `publicFiles` and its public image patterns. Add any new frontend script or stylesheet there when using the Node server. Keep databases and private configuration outside public asset directories. `site-data.js` supplies the default copy and offers when the site is hosted statically; Node-hosted pages use the content API when available.
+
+## Language and accessibility
+
+Public pages support Arabic and English. The visitor's saved choice takes precedence over the browser's first supported language; Arabic is used when neither is available. Preferences are optional: blocked browser storage does not prevent the site or language switcher from working.
+
+`translations.js` contains the remaining public copy, portfolio category labels, search normalization and privacy translations. The main page's existing core labels remain in `app.js`. Keep both languages up to date when adding content. About tabs support Left/Right arrows, Home and End, and retain their selection when the language changes. `npm test` covers preference selection and Arabic/English search normalization in addition to HTTP access controls.

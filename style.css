@@ -243,3 +243,11 @@ body[data-theme=light] .studio-float{background:#0b2351}body[data-theme=light] .
 
 #mainContent:focus{outline:none}
 body[data-theme=light] .nav-links a.is-current{color:#0759bc}
+.screen-panel[dir=ltr] .screen-sidebar{border-left:0;border-right:1px solid #ffffff12}
+body[dir=ltr] .studio-float{direction:ltr}
+body[dir=ltr] .faq-title{text-align:left}
+body[dir=rtl] .faq-title{text-align:right}
+.privacy-page{max-width:800px}
+.privacy-page h1{margin-top:40px}
+#privacyLangBtn{float:left;width:44px}
+body[dir=ltr] #privacyLangBtn{float:right}
