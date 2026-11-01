@@ -39,7 +39,7 @@ if(verifiedImage){
 }else info.append(previewStatus);
 const controls=node('div','project-actions');
 const link=node('a','project-site-link',lang==='ar'?'زيارة الموقع ↗':'Visit website ↗');link.href=x.url;link.target='_blank';link.rel='noopener noreferrer';controls.append(link);info.append(controls);card.append(info);projects.append(card)}
-if(!listed.length)projects.append(node('div','empty-portfolio',lang==='ar'?'لا توجد نتائج مطابقة.':'No matching projects.')); }
+if(!listed.length)projects.append(node('div','empty-portfolio',lang==='ar'?'لا توجد نتائج مطابقة.':'No matching projects.')); setupCardShine(); }
 $('#portfolioSearch').addEventListener('input',()=>{window.codexaPortfolioLimit=6;render()});
 $('#portfolioMore').addEventListener('click',()=>{window.codexaPortfolioLimit=(window.codexaPortfolioLimit||6)+6;render()});
 $('#langBtn').addEventListener('click',()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('codexa-lang',lang);render()});$('#themeBtn').addEventListener('click',()=>{const next=document.body.dataset.theme==='dark'?'light':'dark';document.body.dataset.theme=next;$('#themeBtn').textContent=next==='dark'?'☀':'☾';localStorage.setItem('codexa-theme',next)});const savedTheme=localStorage.getItem('codexa-theme');if(['dark','light'].includes(savedTheme)){document.body.dataset.theme=savedTheme;$('#themeBtn').textContent=savedTheme==='dark'?'☀':'☾'}
@@ -69,29 +69,21 @@ const dashChoices=[...document.querySelectorAll('.sidebar-choice')];const dashTi
 function switchDashboard(step){dashboardStep=step%dashChoices.length;dashChoices.forEach((e,i)=>{e.classList.toggle('active',i===dashboardStep);e.setAttribute('aria-pressed',String(i===dashboardStep))});if(dashTitle)dashTitle.textContent=dashTitles[dashboardStep];document.querySelectorAll('.chart-bars i').forEach((bar,i)=>{bar.style.height=(36+(i*19+dashboardStep*13)%63)+'%'})}
 dashChoices.forEach((choice,i)=>{choice.setAttribute('aria-pressed',String(i===0));choice.addEventListener('click',()=>switchDashboard(i))});
 if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)window.setInterval(()=>switchDashboard(dashboardStep+1),4500);
-// Animate only when counters enter the viewport; reduced motion remains accessible.
-const counters=[...document.querySelectorAll('.count-up')];
-const reduceCountersMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-function animateOneCounter(el){if(el.dataset.animated)return;el.dataset.animated='true';const target=Number(el.dataset.target);if(reduceCountersMotion){el.textContent=target;return}const start=performance.now();function tick(now){const progress=Math.min(1,(now-start)/1700);el.textContent=Math.max(1,Math.floor(1+(target-1)*(1-Math.pow(1-progress,3))));if(progress<1)requestAnimationFrame(tick);else el.textContent=target}requestAnimationFrame(tick)}
-if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){animateOneCounter(entry.target);observer.unobserve(entry.target)}}},{threshold:.15});counters.forEach(el=>observer.observe(el))}else counters.forEach(animateOneCounter);
-
-// Subtle cursor spotlight across cards and buttons; no tracking or external dependency.
-(() => {
- const selectors=['.service-card','.partner-card','.project-card','.achievement','.results-card','.results-card-grid > div','.offer-card','.contact-form','.about-frame','.hero-metrics > div','.btn','.whatsapp-link','.contact-method','.client-trust','.faq-item','.faq details','.studio-panel','.feature-card','.portfolio-card','.why-card','.step-card','.service-item'];
- const targets=[...new Set(selectors.flatMap(s=>[...document.querySelectorAll(s)]))].filter(el=>!el.closest('#process'));
- targets.forEach(el=>el.classList.add('shine-target'));
- if(!window.matchMedia('(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches)return;
- let raf=0, current=null,x=0,y=0;
- const render=()=>{raf=0;if(!current)return;const r=current.getBoundingClientRect();current.style.setProperty('--shine-x',`${((x-r.left)/r.width)*100}%`);current.style.setProperty('--shine-y',`${((y-r.top)/r.height)*100}%`)};
- document.addEventListener('pointermove',e=>{const target=e.target.closest('.shine-target');if(!target){current=null;return;}current=target;x=e.clientX;y=e.clientY;if(!raf)raf=requestAnimationFrame(render)},{passive:true});
-})();
+// A single contained light layer; metrics and project stages are excluded.
+function setupCardShine(){
+ const selectors='.service-card,.project-card,.achievement,.offer-card,.contact-form,.about-frame,.why-tile,.contact-pill,.btn,.faq-accordion summary,.about-tabs-card';
+ document.querySelectorAll(selectors).forEach(el=>{
+  if(el.closest('#process,.hero-metrics')||el.parentElement.closest('.light-surface')||el.querySelector(':scope > .card-light'))return;
+  el.classList.add('light-surface');
+  const light=document.createElement('span');light.className='card-light';light.setAttribute('aria-hidden','true');el.append(light);
+ });
+}
+setupCardShine();
 
 // Additional interactions: expanded services, project modal, language sensitive labels.
 $('#allServicesBtn').addEventListener('click',()=>{const panel=$('#fullServices');panel.hidden=!panel.hidden;$('#allServicesBtn').setAttribute('aria-expanded',String(!panel.hidden));$('#allServicesBtn').textContent=panel.hidden?'عرض كل الخدمات ↓':'إخفاء الخدمات ↑';if(!panel.hidden)panel.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'})});
 $('#closeProject').addEventListener('click',()=>$('#projectDialog').close());$('#modalContact').addEventListener('click',()=>$('#projectDialog').close());
 
-// Global, fixed pointer halo: decorative only, does not intercept clicks.
-if(window.matchMedia('(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches){const halo=document.createElement('div');halo.className='global-cursor-halo';halo.setAttribute('aria-hidden','true');document.body.append(halo);let px=-500,py=-500,raf=0;document.addEventListener('pointermove',e=>{halo.hidden=!!e.target.closest('#process');px=e.clientX;py=e.clientY;if(!raf)raf=requestAnimationFrame(()=>{halo.style.transform=`translate3d(${px-170}px,${py-170}px,0)`;raf=0})},{passive:true});document.addEventListener('pointerleave',()=>halo.style.opacity='0');document.addEventListener('pointerenter',()=>halo.style.opacity='1')}
 const aboutTabContent=[['شريك رقمي يفهم مشروعك','نبدأ بالاستماع إليك وفهم أهدافك والجمهور الذي ترغب في الوصول إليه. ثم نضع تصورًا يناسب نشاطك، من التصميم وتجربة الاستخدام حتى بنية النظام والأداء. نعتني بالتفاصيل ونشرح الخيارات بوضوح، لكي تتخذ قرارات مبنية على احتياجاتك الحقيقية.'],['رؤيتنا: تقنية تفتح آفاقًا جديدة','نرى أن التكنولوجيا الناجحة لا تعتمد على المظهر فقط؛ بل على قدرتها على تبسيط العمل وتقديم تجربة سلسة للعملاء. هدفنا تقديم مواقع وتطبيقات وأنظمة قابلة للتطور مع أعمالك، مع الاستفادة من حلول الذكاء الاصطناعي حيث تضيف فائدة عملية.'],['طريقتنا: خطوات مدروسة ونتائج واضحة','نبدأ بالاكتشاف وتحليل المتطلبات، ثم نرسم تجربة المستخدم ونراجع التصميم معك. بعد الموافقة ننتقل إلى التطوير والاختبار وتحسين الجودة، ثم الإطلاق والتسليم. ونحدد آلية المتابعة والدعم بوضوح بحسب نطاق الاتفاق.']];document.querySelectorAll('[data-about-tab]').forEach(b=>b.addEventListener('click',()=>{const id=Number(b.dataset.aboutTab);document.querySelectorAll('[data-about-tab]').forEach(z=>{z.classList.toggle('active',z===b);z.setAttribute('aria-selected',String(z===b))});const panel=document.querySelector('#aboutTabPanel');panel.classList.remove('tab-enter');void panel.offsetWidth;panel.classList.add('tab-enter');document.querySelector('#aboutTabTitle').textContent=aboutTabContent[id][0];document.querySelector('#aboutTabText').textContent=aboutTabContent[id][1];document.querySelector('.about-tabs-orb').textContent=['◉','↗','☷'][id]}));
 
 document.querySelectorAll('.statshow-card').forEach((card,i)=>{const holder=card.querySelector('.stat-icon');if(holder)holder.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+["<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18M9 20v-4h6v4\"/>", "<rect x=\"7\" y=\"2\" width=\"10\" height=\"20\" rx=\"2\"/><path d=\"M11 18h2M10 5h4\"/>", "<circle cx=\"12\" cy=\"8\" r=\"5\"/><path d=\"m8 12-2 10 6-4 6 4-2-10\"/>", "<path d=\"M9 18h6M10 22h4M9 14c-2-2-4-3-4-7a7 7 0 0 1 14 0c0 4-2 5-4 7l-1 3h-4z\"/>"][i]+'</svg>'; const mini=card.querySelector('.mini-chart');if(mini)mini.remove()});
