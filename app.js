@@ -87,7 +87,7 @@ document.querySelectorAll('.journey-step').forEach(btn=>btn.addEventListener('cl
 // Subtle cursor spotlight across cards and buttons; no tracking or external dependency.
 (() => {
  const selectors=['.service-card','.partner-card','.project-card','.achievement','.results-card','.results-card-grid > div','.offer-card','.contact-form','.about-frame','.hero-metrics > div','.btn','.whatsapp-link','.contact-method','.client-trust','.faq-item','.faq details','.studio-panel','.feature-card','.portfolio-card','.why-card','.step-card','.service-item'];
- const targets=[...new Set(selectors.flatMap(s=>[...document.querySelectorAll(s)]))];
+ const targets=[...new Set(selectors.flatMap(s=>[...document.querySelectorAll(s)]))].filter(el=>!el.closest('#process'));
  targets.forEach(el=>el.classList.add('shine-target'));
  if(!window.matchMedia('(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)').matches)return;
  let raf=0, current=null,x=0,y=0;

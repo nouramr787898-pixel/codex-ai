@@ -68,10 +68,10 @@ a.shine-target,button.shine-target{overflow:hidden}
 .faq-section{display:grid;grid-template-columns:1fr 1.7fr;gap:40px}.faq-list{display:grid;gap:12px}.faq-accordion{border:1px solid #309eff66;border-radius:30px;background:linear-gradient(110deg,#0c2043,#112a55);color:#fff;overflow:hidden}.faq-accordion summary{padding:18px 24px;font-weight:800;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}.faq-accordion summary::after{content:'+';font-size:23px;color:#0ecefc}.faq-accordion[open] summary::after{content:'−'}.faq-accordion p{padding:0 24px 18px;line-height:2;color:#d2e6fa;font-size:13px}.project-dialog{border:1px solid #0ecefc88;border-radius:20px;background:#071736;color:white;max-width:min(95vw,540px);padding:30px}.project-dialog::backdrop{background:#000b}.modal-top{display:flex;justify-content:space-between;gap:15px}.modal-top button{background:transparent;color:#fff;border:0;cursor:pointer;font-size:19px}.project-dialog p{line-height:2;margin:25px 0}.project-details-btn{background:none;border:0;color:#0ecefc;font:800 12px Cairo;cursor:pointer;padding:8px 0;text-align:start}
 /* Always-on traveling shine + hover glow */
 .service-card,.project-card,.statshow-card,.why-tile,.results-card,.results-card-grid>div,.achievement,.journey-detail,.journey-step,.contact-pill,.btn,.faq-accordion,.offer-card,.contact-form,.contact-method,.hero-metrics>div,.why-orb{position:relative;isolation:isolate;transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease;overflow:hidden}
-.service-card::after,.project-card::after,.statshow-card::after,.why-tile::after,.results-card::after,.results-card-grid>div::after,.achievement::after,.journey-detail::after,.journey-step::after,.contact-pill::after,.btn::after,.faq-accordion::after,.offer-card::after,.contact-form::after,.hero-metrics>div::after{content:'';position:absolute;inset:-80% auto -80% -75%;width:42%;pointer-events:none;z-index:5;transform:rotate(24deg) translateX(-260%);background:linear-gradient(90deg,transparent,#94eaff18,#d7faff78,#94eaff14,transparent);animation:codexaShine 7s ease-in-out infinite}@keyframes codexaShine{0%,18%{left:-75%;opacity:0}26%{opacity:1}52%{left:145%;opacity:.9}55%,100%{left:145%;opacity:0}}
-.service-card:hover,.project-card:hover,.statshow-card:hover,.why-tile:hover,.results-card:hover,.achievement:hover,.journey-step:hover,.contact-pill:hover,.faq-accordion:hover{transform:translateY(-7px) scale(1.025);box-shadow:0 18px 55px #0269ef44,0 0 25px #0ecefc35;border-color:#0ecefc}
+.service-card::after,.project-card::after,.statshow-card::after,.why-tile::after,.results-card::after,.results-card-grid>div::after,.achievement::after,.contact-pill::after,.btn::after,.faq-accordion::after,.offer-card::after,.contact-form::after,.hero-metrics>div::after{content:'';position:absolute;inset:-80% auto -80% -75%;width:42%;pointer-events:none;z-index:5;transform:rotate(24deg) translateX(-260%);background:linear-gradient(90deg,transparent,#94eaff18,#d7faff78,#94eaff14,transparent);animation:codexaShine 7s ease-in-out infinite}@keyframes codexaShine{0%,18%{left:-75%;opacity:0}26%{opacity:1}52%{left:145%;opacity:.9}55%,100%{left:145%;opacity:0}}
+.service-card:hover,.project-card:hover,.statshow-card:hover,.why-tile:hover,.results-card:hover,.achievement:hover,.contact-pill:hover,.faq-accordion:hover{transform:translateY(-7px) scale(1.025);box-shadow:0 18px 55px #0269ef44,0 0 25px #0ecefc35;border-color:#0ecefc}
 .footer-logo-icon{width:44px!important;height:44px!important;object-fit:contain}.footer-brand{display:inline-flex!important;gap:10px;align-items:center}.footer-top #footerServices a{display:block;color:#92a9c9;text-decoration:none;font-size:12px;margin:11px 0}.footer-top #footerServices a:hover{color:#0ecefc}
-@media(max-width:850px){.statshow-grid{grid-template-columns:repeat(2,1fr)}.why-layout{grid-template-columns:1fr 1fr}.why-orb{grid-column:1/-1;grid-row:1;margin:auto}.faq-section{grid-template-columns:1fr}}@media(max-width:560px){.statshow-grid{grid-template-columns:1fr 1fr}.statshow-card{min-height:190px;padding:16px}.statshow-card strong{font-size:35px}.why-layout{grid-template-columns:1fr}.why-orb{grid-column:1;grid-row:1;width:200px;height:200px}.hero-contact-pair{justify-content:center}.contact-pill{flex:1}.faq-section{gap:18px}}@media(prefers-reduced-motion:reduce){.phone-icon,.orb-swirl,.brand-strip-inner,.service-card::after,.project-card::after,.statshow-card::after,.why-tile::after,.results-card::after,.results-card-grid>div::after,.achievement::after,.journey-detail::after,.journey-step::after,.contact-pill::after,.btn::after,.faq-accordion::after,.offer-card::after,.contact-form::after,.hero-metrics>div::after{animation:none!important}}
+@media(max-width:850px){.statshow-grid{grid-template-columns:repeat(2,1fr)}.why-layout{grid-template-columns:1fr 1fr}.why-orb{grid-column:1/-1;grid-row:1;margin:auto}.faq-section{grid-template-columns:1fr}}@media(max-width:560px){.statshow-grid{grid-template-columns:1fr 1fr}.statshow-card{min-height:190px;padding:16px}.statshow-card strong{font-size:35px}.why-layout{grid-template-columns:1fr}.why-orb{grid-column:1;grid-row:1;width:200px;height:200px}.hero-contact-pair{justify-content:center}.contact-pill{flex:1}.faq-section{gap:18px}}@media(prefers-reduced-motion:reduce){.phone-icon,.orb-swirl,.brand-strip-inner,.service-card::after,.project-card::after,.statshow-card::after,.why-tile::after,.results-card::after,.results-card-grid>div::after,.achievement::after,.contact-pill::after,.btn::after,.faq-accordion::after,.offer-card::after,.contact-form::after,.hero-metrics>div::after{animation:none!important}}
 
 .full-services .services-grid{margin-top:16px}.brand-strip-inner span{display:inline-flex;align-items:center;min-height:40px}.portfolio-credit{font-size:12px;color:var(--muted);margin-top:18px}.faq-accordion summary::-webkit-details-marker{display:none}
 
@@ -115,7 +115,7 @@ a.shine-target,button.shine-target{overflow:hidden}
 @keyframes aboutRotate{to{transform:rotate(360deg)}}
 @keyframes orbFloat{50%{transform:translateY(-12px) rotate(10deg)}}
 .journey-progress{display:none!important}
-.journey-wrap:after{content:'▼';position:absolute;top:40px;left:var(--journey-marker-x,12.5%);transform:translateX(-50%);color:#0ecefc;font-size:18px;filter:drop-shadow(0 0 8px #0ecefc);z-index:4;transition:left .4s ease;pointer-events:none}
+
 .journey-detail-icon{min-width:96px;justify-content:center}
 .contact-copy{align-self:center;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px}
 .contact-copy h2{line-height:1.55;margin:8px 0}
@@ -129,7 +129,7 @@ a.shine-target,button.shine-target{overflow:hidden}
 }
 @keyframes codexaFullSweep{0%,15%{background-position:160% 0}70%,100%{background-position:-60% 0}}
 .shine-target::after{opacity:.3}
-@media(max-width:770px){.journey-wrap:after{top:24px}.about-tabs-orb{font-size:45px!important}.contact-copy{padding:16px 8px}}
+@media(max-width:770px){.about-tabs-orb{font-size:45px!important}.contact-copy{padding:16px 8px}}
 @media(prefers-reduced-motion:reduce){.glow-word::before,.shine-target::before,.about-arrow,.about-tabs-orb{animation:none!important}}
 
 /* Responsive hero: size the screen to its content, including the chart footer. */
@@ -195,7 +195,7 @@ a.shine-target,button.shine-target{overflow:hidden}
 /* A calm connected journey, with no card sweeps or rectangular selected state. */
 .process .journey-wrap{background:var(--panel);overflow:visible}
 .journey-wrap::before,.journey-wrap::after,
-.journey-step::before,.journey-step::after,
+.journey-step::before,
 .journey-detail::before,.journey-detail::after{content:none!important;animation:none!important}
 .journey-step,.journey-step:hover,.journey-step:active,.journey-step:focus{background:transparent!important;background-image:none!important;box-shadow:none!important;transform:none!important;overflow:visible}
 .journey-step:focus-visible{outline:none}
