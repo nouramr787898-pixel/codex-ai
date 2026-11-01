@@ -239,3 +239,4 @@ a.shine-target,button.shine-target{overflow:hidden}
 .process .section-heading{display:block}
 .journey-intro{white-space:normal;overflow-wrap:anywhere;line-height:1.9}
 .journey-step{z-index:2}
+.preview-status{font-size:12px;line-height:1.8;color:var(--muted);margin:12px 0 18px}
