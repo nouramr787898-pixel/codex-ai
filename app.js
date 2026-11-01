@@ -7,14 +7,19 @@ const node=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.class
 const icons={"globe": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18M9 20v-4h6v4\"/>", "bag": "<circle cx=\"9\" cy=\"20\" r=\"1\"/><circle cx=\"19\" cy=\"20\" r=\"1\"/><path d=\"M2 3h2l3 12h13l2-9H5\"/>", "code": "<rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><path d=\"M9 6h6M9 18h6\"/>", "ai": "<path d=\"M12 4a4 4 0 0 0-7 3 4 4 0 0 0-1 7 4 4 0 0 0 5 6l3-2 3 2a4 4 0 0 0 5-6 4 4 0 0 0-1-7 4 4 0 0 0-7-3v14M7 9l3 2m7-2-3 2M6 15l4-1m8 1-4-1\"/>", "dashboards": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><path d=\"M3 10h18M10 10v11M14 15h4\"/>", "chart": "<path d=\"M3 3v18h18M7 16l4-5 4 3 5-8\"/>", "spark": "<path d=\"M3 11l18-7-7 18-3-8-8-3z\"/>", "server": "<rect x=\"4\" y=\"3\" width=\"16\" height=\"7\" rx=\"2\"/><rect x=\"4\" y=\"14\" width=\"16\" height=\"7\" rx=\"2\"/><path d=\"M8 7h.01M8 18h.01\"/>", "seo": "<circle cx=\"10\" cy=\"10\" r=\"6\"/><path d=\"m14.5 14.5 6 6m-12-10 2 2 4-4\"/>", "crm": "<circle cx=\"9\" cy=\"8\" r=\"3\"/><circle cx=\"18\" cy=\"9\" r=\"2\"/><path d=\"M3 20v-2a6 6 0 0 1 12 0v2m2-7a5 5 0 0 1 4 5v2\"/>", "erp": "<rect x=\"2\" y=\"3\" width=\"7\" height=\"6\" rx=\"1\"/><rect x=\"15\" y=\"3\" width=\"7\" height=\"6\" rx=\"1\"/><rect x=\"8\" y=\"16\" width=\"8\" height=\"6\" rx=\"1\"/><path d=\"M5 9v3h14V9M12 12v4\"/>"};
 function render(){if(!content)return;const t=dict[lang];document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.body.dir=document.documentElement.dir;$('#langBtn').textContent=lang==='ar'?'EN':'عربي';document.querySelectorAll('[data-i]').forEach(el=>{const key=el.dataset.i;if(t[key]){if(['aboutHeading','servicesHeading','portfolioHeading','processHeading','journeyHeading','resultsTitle','contactHeading'].includes(key))el.innerHTML=t[key];else el.textContent=t[key]}});
 const meta=content[lang]||{};$('#heroTitle').innerHTML=lang==='ar'?'نحوّل أفكارك إلى <span class="ink-text">حقيقة.<svg class="ink-stroke" viewBox="0 0 310 34" preserveAspectRatio="none" aria-hidden="true"><path d="M8 21 Q87 1 168 17 T302 9"/></svg></span>':'We turn ideas into <span class="ink-text">reality.<svg class="ink-stroke" viewBox="0 0 310 34" preserveAspectRatio="none" aria-hidden="true"><path d="M8 21 Q87 1 168 17 T302 9"/></svg></span>';document.querySelectorAll('.achievement [data-ar]').forEach(el=>el.textContent=el.dataset[lang]);$('#heroDescription').textContent=meta.description||'';$('#aboutDescription').textContent=meta.about||'';$('#experienceLabel').textContent=meta.experience||'';
+const chosenService=$('#serviceSelect').value;
 const grid=$('#servicesGrid');grid.replaceChildren();const allGrid=$('#fullServicesGrid');allGrid.replaceChildren();const allServices=window.codexaStaticServices||content.services||[];const select=$('#serviceSelect');select.replaceChildren(node('option','',t.selectService));select.firstElementChild.value='';
 for(const [serviceIndex,s] of allServices.entries()){const title=s[lang]||s.ar||'';const card=node('article','service-card reveal');const ico=node('div','service-icon'); const key= /systems/i.test(s.id)?'erp':/apps/i.test(s.id)?'code':/ai/i.test(s.id)?'ai':/crm/i.test(s.id)?'crm':/odoo|erp/i.test(s.id)?'erp':/seo/i.test(s.id)?'seo':/host/i.test(s.id)?'server':/market/i.test(s.id)?'spark':/dashboard/i.test(s.id)?'dashboards':s.icon; ico.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+(icons[key]||icons.globe)+'</svg>'; const h=node('h3','',title);const p=node('p','',s[lang+'Desc']||'');const a=node('a','',t.requestService);a.href='#contact';a.addEventListener('click',()=>{select.value=s.id});card.append(ico,h,p,a);(serviceIndex<3?grid:allGrid).append(card);const opt=node('option','',title);opt.value=s.id;select.append(opt)}
-const fs=$('#footerServices');fs.replaceChildren();for(const s of allServices){const link=node('a','',s[lang]||s.ar);link.href='#services';link.addEventListener('click',()=>{document.querySelector('#fullServices').hidden=false;document.querySelector('#allServicesBtn').setAttribute('aria-expanded','true')});fs.append(link)}const offer=content.offer||{};$('#pricing').hidden=offer.active===false;$('#offerPrice').textContent=offer.price||'1999';$('#discountLabel').textContent=offer.discount||'50%';$('#offerNote').textContent=offer[lang+'Note']||'';$('#offerDisclaimer').textContent=offer[lang+'Disclaimer']||'';
+select.value=chosenService;
+const fs=$('#footerServices');fs.replaceChildren();for(const s of allServices){const link=node('a','',s[lang]||s.ar);link.href='#services';link.addEventListener('click',()=>{document.querySelector('#fullServices').hidden=false;updateServicesToggle()});fs.append(link)}const offer=content.offer||{};$('#pricing').hidden=offer.active===false;$('#offerPrice').textContent=offer.price||'1999';$('#discountLabel').textContent=offer.discount||'50%';$('#offerNote').textContent=offer[lang+'Note']||'';$('#offerDisclaimer').textContent=offer[lang+'Disclaimer']||'';
+renderPortfolio();updateServicesToggle();updateControlLabels();setupCardShine();
+}
+function renderPortfolio(){if(!content)return;
 const projects=$('#portfolioGrid');projects.replaceChildren();
 const allProjects=[...(window.codexaPartnerPortfolio||[])];
 const cats=['الكل',...new Set(allProjects.map(x=>x.group))];const filters=$('#portfolioFilters');filters.replaceChildren();
 if(!window.codexaPortfolioCategory||!cats.includes(window.codexaPortfolioCategory))window.codexaPortfolioCategory='الكل';
-for(const c of cats){const b=node('button','portfolio-filter'+(window.codexaPortfolioCategory===c?' active':''),c);b.type='button';b.setAttribute('aria-pressed',String(window.codexaPortfolioCategory===c));b.addEventListener('click',()=>{window.codexaPortfolioCategory=c;window.codexaPortfolioLimit=6;render()});filters.append(b)}
+for(const c of cats){const b=node('button','portfolio-filter'+(window.codexaPortfolioCategory===c?' active':''),c);b.type='button';b.setAttribute('aria-pressed',String(window.codexaPortfolioCategory===c));b.addEventListener('click',()=>{window.codexaPortfolioCategory=c;window.codexaPortfolioLimit=6;renderPortfolio();filters.querySelector('[aria-pressed="true"]').focus({preventScroll:true})});filters.append(b)}
 const term=($('#portfolioSearch')?.value||'').trim().toLocaleLowerCase();
 const matching=allProjects.filter(x=>(window.codexaPortfolioCategory==='الكل'||x.group===window.codexaPortfolioCategory)&&(x.name+' '+x.group).toLocaleLowerCase().includes(term));
 const limit=window.codexaPortfolioLimit||6;const listed=matching.slice(0,limit);
@@ -40,11 +45,57 @@ const verifiedImage=x.imageVerified===true&&typeof x.image==='string'&&/^assets\
 const controls=node('div','project-actions');
 const link=node('a','project-site-link',lang==='ar'?'زيارة الموقع ↗':'Visit website ↗');link.href=x.url;link.target='_blank';link.rel='noopener noreferrer';controls.append(link);info.append(controls);card.append(info);projects.append(card)}
 if(!listed.length)projects.append(node('div','empty-portfolio',lang==='ar'?'لا توجد نتائج مطابقة.':'No matching projects.')); setupCardShine(); }
-$('#portfolioSearch').addEventListener('input',()=>{window.codexaPortfolioLimit=6;render()});
-$('#portfolioMore').addEventListener('click',()=>{window.codexaPortfolioLimit=(window.codexaPortfolioLimit||6)+6;render()});
+$('#portfolioSearch').addEventListener('input',()=>{window.codexaPortfolioLimit=6;renderPortfolio()});
+$('#portfolioMore').addEventListener('click',()=>{const shown=$('#portfolioGrid').children.length;window.codexaPortfolioLimit=(window.codexaPortfolioLimit||6)+6;renderPortfolio();$('#portfolioGrid').children[shown]?.querySelector('a')?.focus({preventScroll:true})});
 $('#langBtn').addEventListener('click',()=>{lang=lang==='ar'?'en':'ar';localStorage.setItem('codexa-lang',lang);render()});$('#themeBtn').addEventListener('click',()=>{const next=document.body.dataset.theme==='dark'?'light':'dark';document.body.dataset.theme=next;$('#themeBtn').textContent=next==='dark'?'☀':'☾';localStorage.setItem('codexa-theme',next)});const savedTheme=localStorage.getItem('codexa-theme');if(['dark','light'].includes(savedTheme)){document.body.dataset.theme=savedTheme;$('#themeBtn').textContent=savedTheme==='dark'?'☀':'☾'}
-$('#menuBtn').addEventListener('click',()=>{const open=$('#navigation').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',String(open))});document.querySelectorAll('#navigation a').forEach(a=>a.addEventListener('click',()=>{$('#navigation').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false')}));$('#year').textContent=new Date().getFullYear();
-$('#requestForm').addEventListener('submit',async e=>{e.preventDefault();const form=e.currentTarget;if(!form.reportValidity())return;const data=Object.fromEntries(new FormData(form));const status=$('#formStatus'),btn=$('#submitBtn');btn.disabled=true;btn.textContent=dict[lang].sending;status.textContent='';status.className='';try{const response=await fetch('/api/inquiries',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});const json=await response.json();if(!response.ok)throw new Error(json.error||dict[lang].sendError);status.className='success';status.textContent=dict[lang].sent;form.reset()}catch(err){status.className='error';status.textContent=err.message||dict[lang].sendError}finally{btn.disabled=false;btn.textContent=dict[lang].submit}});
+function setMenuOpen(open,returnFocus=false){
+ $('#navigation').classList.toggle('open',open);$('#menuBtn').setAttribute('aria-expanded',String(open));
+ if(returnFocus)$('#menuBtn').focus();
+ updateControlLabels();
+}
+$('#menuBtn').addEventListener('click',()=>setMenuOpen(!$('#navigation').classList.contains('open')));
+document.querySelectorAll('#navigation a').forEach(a=>a.addEventListener('click',()=>setMenuOpen(false)));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#navigation').classList.contains('open'))setMenuOpen(false,true)});
+document.addEventListener('click',e=>{if($('#navigation').classList.contains('open')&&!e.target.closest('#navigation,#menuBtn'))setMenuOpen(false)});
+window.addEventListener('resize',()=>{if(getComputedStyle($('#menuBtn')).display==='none')setMenuOpen(false)},{passive:true});
+$('#year').textContent=new Date().getFullYear();
+function updateServicesToggle(){
+ const expanded=!$('#fullServices').hidden;
+ $('#allServicesBtn').setAttribute('aria-expanded',String(expanded));
+ $('#allServicesBtn').textContent=lang==='ar'?(expanded?'إخفاء الخدمات ↑':'عرض كل الخدمات ↓'):(expanded?'Hide services ↑':'Show all services ↓');
+}
+function updateControlLabels(){
+ const open=$('#navigation').classList.contains('open');
+ $('#menuBtn').setAttribute('aria-label',lang==='ar'?(open?'إغلاق القائمة':'فتح القائمة'):(open?'Close menu':'Open menu'));
+ $('#themeBtn').setAttribute('aria-label',lang==='ar'?'تغيير المظهر':'Toggle theme');
+ $('#portfolioSearch').setAttribute('aria-label',lang==='ar'?'ابحث باسم الموقع أو المجال':'Search websites or categories');
+ $('#portfolioFilters').setAttribute('aria-label',lang==='ar'?'تصفية المشاريع':'Filter projects');
+ $('#requestFallback').textContent=lang==='ar'?'مراجعة التفاصيل وإرسالها عبر واتساب ↗':'Review and send details via WhatsApp ↗';
+ if(!$('#requestFallback').hidden)$('#requestFallback').href=inquiryWhatsAppUrl($('#requestForm'));
+}
+function inquiryWhatsAppUrl(form){
+ const values=Object.fromEntries(new FormData(form));
+ const service=$('#serviceSelect').selectedOptions[0]?.textContent||values.service;
+ const labels=lang==='ar'?['طلب مشروع جديد','الاسم','الهاتف','البريد الإلكتروني','الخدمة','وصف المشروع','الميزانية']:['New project inquiry','Name','Phone','Email','Service','Project description','Budget'];
+ const fields=[values.name,values.phone,values.email,service,values.description,values.budget];
+ const message=[labels[0],...fields.map((value,i)=>value?labels[i+1]+': '+value:'').filter(Boolean)].join('\n');
+ return 'https://wa.me/201068699631?text='+encodeURIComponent(message);
+}
+$('#requestForm').addEventListener('input',()=>{if(!$('#requestFallback').hidden)$('#requestFallback').href=inquiryWhatsAppUrl($('#requestForm'))});
+$('#requestForm').addEventListener('submit',async e=>{
+ e.preventDefault();const form=e.currentTarget;if(!form.reportValidity())return;
+ const data=Object.fromEntries(new FormData(form));const status=$('#formStatus'),btn=$('#submitBtn'),fallback=$('#requestFallback');
+ btn.disabled=true;form.setAttribute('aria-busy','true');btn.textContent=dict[lang].sending;status.textContent='';status.className='';fallback.hidden=true;
+ try{
+  const response=await fetch('/api/inquiries',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+  const json=response.headers.get('content-type')?.includes('application/json')?await response.json():null;
+  if(!response.ok||json?.ok!==true)throw new Error(json?.error||dict[lang].sendError);
+  status.className='success';status.textContent=dict[lang].sent;form.reset();
+ }catch(err){
+  status.className='error';status.textContent=err.message||dict[lang].sendError;
+  fallback.href=inquiryWhatsAppUrl(form);fallback.hidden=false;
+ }finally{btn.disabled=false;form.removeAttribute('aria-busy');btn.textContent=dict[lang].submit}
+});
 (async()=>{try{const r=await fetch('/api/content');if(!r.ok)throw Error();content=await r.json();render()}catch{content={ar:{headline:'نحوّل أفكارك إلى حقيقة.',description:'في Codexa AI، نبتكر مواقع إلكترونية وأنظمة برمجية وحلولًا ذكية تساعدك على تطوير أعمالك والانطلاق بثقة في العالم الرقمي.',about:''},en:{headline:'Building digital reality.',description:'Websites and intelligent solutions.',about:''},services:window.codexaStaticServices||[],offer:{active:true},projects:[]};render()}})();
 
 // Local SVG artwork: no third-party image server required. Logos, not text-only placeholders.
@@ -81,7 +132,7 @@ function setupCardShine(){
 setupCardShine();
 
 // Additional interactions: expanded services, project modal, language sensitive labels.
-$('#allServicesBtn').addEventListener('click',()=>{const panel=$('#fullServices');panel.hidden=!panel.hidden;$('#allServicesBtn').setAttribute('aria-expanded',String(!panel.hidden));$('#allServicesBtn').textContent=panel.hidden?'عرض كل الخدمات ↓':'إخفاء الخدمات ↑';if(!panel.hidden)panel.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'})});
+$('#allServicesBtn').addEventListener('click',()=>{const panel=$('#fullServices');panel.hidden=!panel.hidden;updateServicesToggle();if(!panel.hidden)panel.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'})});
 $('#closeProject').addEventListener('click',()=>$('#projectDialog').close());$('#modalContact').addEventListener('click',()=>$('#projectDialog').close());
 
 const aboutTabContent=[['شريك رقمي يفهم مشروعك','نبدأ بالاستماع إليك وفهم أهدافك والجمهور الذي ترغب في الوصول إليه. ثم نضع تصورًا يناسب نشاطك، من التصميم وتجربة الاستخدام حتى بنية النظام والأداء. نعتني بالتفاصيل ونشرح الخيارات بوضوح، لكي تتخذ قرارات مبنية على احتياجاتك الحقيقية.'],['رؤيتنا: تقنية تفتح آفاقًا جديدة','نرى أن التكنولوجيا الناجحة لا تعتمد على المظهر فقط؛ بل على قدرتها على تبسيط العمل وتقديم تجربة سلسة للعملاء. هدفنا تقديم مواقع وتطبيقات وأنظمة قابلة للتطور مع أعمالك، مع الاستفادة من حلول الذكاء الاصطناعي حيث تضيف فائدة عملية.'],['طريقتنا: خطوات مدروسة ونتائج واضحة','نبدأ بالاكتشاف وتحليل المتطلبات، ثم نرسم تجربة المستخدم ونراجع التصميم معك. بعد الموافقة ننتقل إلى التطوير والاختبار وتحسين الجودة، ثم الإطلاق والتسليم. ونحدد آلية المتابعة والدعم بوضوح بحسب نطاق الاتفاق.']];document.querySelectorAll('[data-about-tab]').forEach(b=>b.addEventListener('click',()=>{const id=Number(b.dataset.aboutTab);document.querySelectorAll('[data-about-tab]').forEach(z=>{z.classList.toggle('active',z===b);z.setAttribute('aria-selected',String(z===b))});const panel=document.querySelector('#aboutTabPanel');panel.classList.remove('tab-enter');void panel.offsetWidth;panel.classList.add('tab-enter');document.querySelector('#aboutTabTitle').textContent=aboutTabContent[id][0];document.querySelector('#aboutTabText').textContent=aboutTabContent[id][1];document.querySelector('.about-tabs-orb').textContent=['◉','↗','☷'][id]}));

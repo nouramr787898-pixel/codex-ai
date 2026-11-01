@@ -227,3 +227,6 @@ body[data-theme=light] .studio-float{background:#0b2351}body[data-theme=light] .
 @media(prefers-reduced-motion:reduce){.card-light{display:none}.count-up{animation:none!important}}
 
 .faq-accordion summary{border-radius:inherit}
+
+#requestFallback[hidden]{display:none}
+#requestFallback{margin-bottom:16px;text-align:center;line-height:1.8}
