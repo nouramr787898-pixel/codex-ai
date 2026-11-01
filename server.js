@@ -44,8 +44,21 @@ app.use(compression());
 app.use(express.json({limit:'35kb'}));
 const SQLiteStore=connectSqlite3(session);
 app.use(session({store:new SQLiteStore({db:'sessions.sqlite',dir}),secret,resave:false,saveUninitialized:false,name:'codexa.sid',cookie:{httpOnly:true,sameSite:'lax',secure:production,maxAge:1000*60*60*6}}));
-app.use((req,res,next)=>{if(/^\/(?:server\.js|package(?:-lock)?\.json|README\.md|\.env(?:\.example)?|\.gitignore|codexa\.sqlite|sessions\.sqlite)$/i.test(req.path))return res.sendStatus(404);next()});
-app.use(express.static(root,{index:false,maxAge:'1h',dotfiles:'deny',extensions:false,setHeaders(res,file){if(/\.(?:js|json|md)$/i.test(file)&&!file.endsWith('app.js')&&!file.endsWith('admin.js'))res.setHeader('Cache-Control','no-store')}}));
+// Serve only the public website assets; never expose the checkout or database directory.
+const publicFiles=new Set([
+ '/index.html','/privacy.html','/admin.html','/style.css','/admin.css','/project-flow.css',
+ '/app.js','/admin.js','/site-data.js','/portfolio-data.js','/project-flow.js','/counters.js','/navigation.js',
+ '/codexa-icon.png','/codexa-logo.png'
+]);
+const publicAsset=/^\/(?:client-logo-\d{2}\.webp|logo-[a-z0-9-]+\.svg|assets\/portfolio\/[a-zA-Z0-9_-]+\.(?:webp|png|jpe?g))$/;
+const servePublic=express.static(root,{index:false,maxAge:'1h',dotfiles:'deny',extensions:false,setHeaders(res,file){if(/\.(?:js|html|css)$/i.test(file))res.setHeader('Cache-Control','no-cache')}});
+app.use((req,res,next)=>{
+ let requestPath;
+ try{requestPath=decodeURIComponent(req.path)}catch{return res.sendStatus(400)}
+ if(publicFiles.has(requestPath)||publicAsset.test(requestPath))return servePublic(req,res,()=>res.sendStatus(404));
+ if(['/', '/privacy', '/robots.txt','/sitemap.xml','/api'].includes(requestPath)||/^\/admin\/?$/.test(requestPath)||requestPath.startsWith('/api/'))return next();
+ return res.sendStatus(404);
+});
 const limiter=(max)=>rateLimit({windowMs:15*60*1000,limit:max,standardHeaders:'draft-7',legacyHeaders:false,message:{error:'طلبات كثيرة جدًا؛ حاول مرة أخرى بعد قليل.'}});
 const safeText=(v,max=500)=>typeof v==='string'?v.trim().slice(0,max):'';
 const validEmail=v=>!v||/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
@@ -80,5 +93,8 @@ app.put('/api/admin/content/:key',requireAdmin,sameOrigin,(req,res)=>{
 app.get('/robots.txt',(req,res)=>res.type('text/plain').send('User-agent: *\nAllow: /\nDisallow: /admin\nSitemap: '+(process.env.BASE_URL||'https://codexaai.online')+'/sitemap.xml'));
 app.get('/sitemap.xml',(req,res)=>res.type('application/xml').send(`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${process.env.BASE_URL||'https://codexaai.online'}</loc></url></urlset>`));
 app.get('/admin',(req,res)=>res.sendFile(path.join(root,'admin.html')));
-app.get('*',(req,res)=>res.sendFile(path.join(root,'index.html')));
+app.get('/privacy',(_req,res)=>res.redirect('/privacy.html'));
+app.use('/api',(_req,res)=>res.status(404).json({error:'المسار غير موجود'}));
+app.get('/',(_req,res)=>res.sendFile(path.join(root,'index.html')));
+app.use((_req,res)=>res.sendStatus(404));
 app.listen(Number(process.env.PORT)||3000,()=>console.log('Codexa AI running on port',process.env.PORT||3000));

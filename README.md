@@ -88,3 +88,9 @@ Blue cursor-following spotlight and luminous rim added site-wide to interactive 
 Each portfolio card displays a screenshot preview above its name and website link. Reviewed repository screenshots take priority when an entry has `image: "assets/portfolio/<project-name>.webp"` and `imageVerified: true` (PNG and JPG are also supported). Otherwise, the card requests its website preview from `image.thum.io`. Images load lazily, in batches of six projects.
 
 External previews can return loading screens, bot challenges or access-denied pages as successful image responses; they are not marked as reviewed. Replace such captures with manually reviewed local screenshots of the fully loaded project homepage. Failed image requests show an unavailable message while preserving the website link. No project currently has a reviewed local screenshot.
+
+## Development checks and public files
+
+Run `npm run check` for JavaScript syntax checks and `npm test` for HTTP tests against a temporary Node/SQLite instance. The tests verify that existing server, dependency and database-path files cannot be downloaded, while public pages, scripts and content APIs remain available. Test data is isolated and cleaned up.
+
+`server.js` exposes only the assets listed in `publicFiles` and its public image patterns. Add any new frontend script or stylesheet there when using the Node server. Keep databases and private configuration outside public asset directories. `site-data.js` supplies the default copy and offers when the site is hosted statically; Node-hosted pages use the content API when available.
